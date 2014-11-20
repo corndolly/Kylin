@@ -255,7 +255,7 @@ public class ProjectManager {
                 tables.add(tableDesc);
             }
         }
-
+        logger.debug("@@DEBUG_INFO@@" + tables);
         return tables;
     }
 
