@@ -589,6 +589,7 @@ public class CubeService extends BasicService {
     
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public void syncTableToProject(String tables,String project) throws IOException {
-        getProjectManager().updateTableToProject(tables, project);
+        ProjectInstance projectInstance = getProjectManager().updateTableToProject(tables, project);
+        logger.debug("@@DEBUG_INFO@@ syncTableToProject: " + projectInstance.getTables());
     }    
 }

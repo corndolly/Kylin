@@ -123,7 +123,7 @@ public class TableDesc extends RootPersistentEntity {
 
     @Override
     public String toString() {
-        return "TableDesc [name=" + name + "]";
+        return "TableDesc [name=" + name + "], " + database.toString();
     }
 
 }

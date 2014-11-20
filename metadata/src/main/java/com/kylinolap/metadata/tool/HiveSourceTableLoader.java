@@ -124,7 +124,7 @@ public class HiveSourceTableLoader {
         List<TableDesc> tableDescList = new ArrayList<TableDesc>();
         List<Map<String, String>> tableAttrsList = new ArrayList<Map<String, String>>();
         getTables(database, reader, tableDescList, tableAttrsList);
-
+        logger.debug("@@DEBUG_INFO@@" + tableDescList);
         List<String> loadedTables = Lists.newArrayList();
         
         for (TableDesc table : tableDescList) {

@@ -247,7 +247,7 @@ public class ProjectManager {
         if (originTableCount < projectInstance.getTablesCount()) {
             saveResource(projectInstance);
         }
-
+        logger.debug("@@DEBUG_INFO@@" + projectInstance.getTables());
         List<TableDesc> tables = Lists.newArrayList();
         for (String table : projectInstance.getTables()) {
             TableDesc tableDesc = getMetadataManager().getTableDesc(table);
