@@ -293,7 +293,7 @@ public class MetadataManager {
         if (srcTableMap.containsKey(t.getName()))
             throw new IllegalStateException("Dup SourceTable name '" + t.getName() + "'");
 
-        if (t.getDatabase().equals("DEFAULT")) {
+        if (t.getDatabase().equals("DEFAULT") || t.getDatabase().equals("EDW")) {
             srcTableMap.putLocal(t.getName(), t);
         } else {
             srcTableMap.putLocal(t.getDatabase() + "." + t.getName(), t);
