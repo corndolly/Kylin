@@ -54,6 +54,9 @@ public class AuthoritiesPopulator extends DefaultLdapAuthoritiesPopulator {
             this.defaultAuthorities.add(modelerAuthority);
         if (defaultRole.contains(Constant.ROLE_ANALYST))
             this.defaultAuthorities.add(analystAuthority);
+        if (defaultRole.contains(Constant.ROLE_ADMIN)) {
+            this.defaultAuthorities.add(adminAuthority);
+        }
     }
 
     @Override
