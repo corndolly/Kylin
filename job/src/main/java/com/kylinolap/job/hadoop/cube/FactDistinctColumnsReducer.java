@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.kylinolap.cube.common.BytesSplitter;
+import com.kylinolap.cube.common.SplittedBytes;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -46,6 +48,9 @@ import com.kylinolap.metadata.model.cube.TblColRef;
 public class FactDistinctColumnsReducer extends Reducer<ShortWritable, Text, NullWritable, Text> {
 
     private List<TblColRef> columnList = new ArrayList<TblColRef>();
+    private String intermediateTableRowDelimiter;
+    private byte byteRowDelimiter;
+    private BytesSplitter bytesSplitter;
 
     @Override
     protected void setup(Context context) throws IOException {
@@ -58,6 +63,11 @@ public class FactDistinctColumnsReducer extends Reducer<ShortWritable, Text, Nul
         long baseCuboidId = Cuboid.getBaseCuboidId(cubeDesc);
         Cuboid baseCuboid = Cuboid.findById(cubeDesc, baseCuboidId);
         columnList = baseCuboid.getColumns();
+
+        intermediateTableRowDelimiter = conf.get(BatchConstants.CFG_CUBE_INTERMEDIATE_TABLE_ROW_DELIMITER, Character.toString(BatchConstants.INTERMEDIATE_TABLE_ROW_DELIMITER));
+        byteRowDelimiter = intermediateTableRowDelimiter.getBytes("UTF-8")[0];
+        bytesSplitter = new BytesSplitter(4096000, 1024); //4M
+
     }
 
     @Override
@@ -66,8 +76,12 @@ public class FactDistinctColumnsReducer extends Reducer<ShortWritable, Text, Nul
 
         HashSet<ByteArray> set = new HashSet<ByteArray>();
         for (Text textValue : values) {
-            ByteArray value = new ByteArray(Bytes.copy(textValue.getBytes(), 0, textValue.getLength()));
-            set.add(value);
+            bytesSplitter.split(textValue.getBytes(), textValue.getLength(), byteRowDelimiter);
+            SplittedBytes[] splitBuffers = bytesSplitter.getSplitBuffers();
+            for (SplittedBytes buffer : splitBuffers) {
+                ByteArray value = new ByteArray(Bytes.copy(buffer.value, 0, buffer.length));
+                set.add(value);
+            }
         }
 
         Configuration conf = context.getConfiguration();
