@@ -96,9 +96,9 @@ public class SerializedHBaseTupleIterator implements ITupleIterator {
             return false;
         }
         // 3. check threshold
-        if (scanCount >= context.getThreshold()) {
-            throw new ScanOutOfLimitException("Scan row count exceeded threshold: " + context.getThreshold() + ", please add filter condition to narrow down backend scan range, like where clause.");
-        }
+//        if (scanCount >= context.getThreshold()) {
+//            throw new ScanOutOfLimitException("Scan row count exceeded threshold: " + context.getThreshold() + ", please add filter condition to narrow down backend scan range, like where clause.");
+//        }
         // 4. check cube segments
         return segmentIteratorIterator.hasNext() || segmentIterator.hasNext();
     }

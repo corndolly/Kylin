@@ -76,12 +76,14 @@ public class FactDistinctColumnsReducer extends Reducer<ShortWritable, Text, Nul
 
         HashSet<ByteArray> set = new HashSet<ByteArray>();
         for (Text textValue : values) {
-            bytesSplitter.split(textValue.getBytes(), textValue.getLength(), byteRowDelimiter);
-            SplittedBytes[] splitBuffers = bytesSplitter.getSplitBuffers();
-            for (SplittedBytes buffer : splitBuffers) {
-                ByteArray value = new ByteArray(Bytes.copy(buffer.value, 0, buffer.length));
-                set.add(value);
-            }
+//            bytesSplitter.split(textValue.getBytes(), textValue.getLength(), byteRowDelimiter);
+//            SplittedBytes[] splitBuffers = bytesSplitter.getSplitBuffers();
+//            for (SplittedBytes buffer : splitBuffers) {
+//                ByteArray value = new ByteArray(Bytes.copy(buffer.value, 0, buffer.length));
+//                set.add(value);
+//            }
+            ByteArray value = new ByteArray(Bytes.copy(textValue.getBytes(), 0, textValue.getLength()));
+            set.add(value);
         }
 
         Configuration conf = context.getConfiguration();

@@ -36,7 +36,7 @@ public class HbaseServerKVIterator implements Iterable<Pair<ImmutableBytesWritab
 
             ImmutableBytesWritable key = new ImmutableBytesWritable();
             ImmutableBytesWritable value = new ImmutableBytesWritable();
-            Pair<ImmutableBytesWritable, ImmutableBytesWritable> pair = new Pair<>(key, value);
+            Pair<ImmutableBytesWritable, ImmutableBytesWritable> pair = new Pair<ImmutableBytesWritable, ImmutableBytesWritable>(key, value);
 
             private boolean hasMore = true;
 

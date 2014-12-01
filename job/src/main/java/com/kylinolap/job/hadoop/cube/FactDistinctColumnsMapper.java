@@ -107,28 +107,28 @@ public class FactDistinctColumnsMapper<KEYIN> extends Mapper<KEYIN, Text, ShortW
             outputKey.set((short) i);
             SplittedBytes bytes = splitBuffers[flatTableIndexes[i]];
             outputValue.set(bytes.value, 0, bytes.length);
-            //System.out.println(i + " -- " + outputValue);
-            //context.write(outputKey, outputValue);
-            if (keyMap.containsKey(outputKey)) {
-                Set<ByteArray> values = keyMap.get(outputKey);
-                values.add(new ByteArray(Bytes.copy(outputValue.getBytes(), 0, outputValue.getLength())));
-            } else {
-                Set<ByteArray> values = new HashSet<ByteArray>();
-                values.add(new ByteArray(Bytes.copy(outputValue.getBytes(), 0, outputValue.getLength())));
-                keyMap.put(new ShortWritable(outputKey.get()), values);
-            }
+            System.out.println(i + " -- " + outputValue);
+            context.write(outputKey, outputValue);
+//            if (keyMap.containsKey(outputKey)) {
+//                Set<ByteArray> values = keyMap.get(outputKey);
+//                values.add(new ByteArray(Bytes.copy(outputValue.getBytes(), 0, outputValue.getLength())));
+//            } else {
+//                Set<ByteArray> values = new HashSet<ByteArray>();
+//                values.add(new ByteArray(Bytes.copy(outputValue.getBytes(), 0, outputValue.getLength())));
+//                keyMap.put(new ShortWritable(outputKey.get()), values);
+//            }
         }
     }
 
     @Override
     protected void cleanup(Mapper.Context context) throws IOException, InterruptedException {
-        for (Map.Entry<ShortWritable, Set<ByteArray>> entry : keyMap.entrySet()) {
-            Text t = new Text();
-            for (ByteArray v : entry.getValue()) {
-                t.append(v.data, 0, v.data.length);
-                t.append(splitter, 0, 1);
-            }
-            context.write(entry.getKey(), t);
-        }
+//        for (Map.Entry<ShortWritable, Set<ByteArray>> entry : keyMap.entrySet()) {
+//            Text t = new Text();
+//            for (ByteArray v : entry.getValue()) {
+//                t.append(v.data, 0, v.data.length);
+//                t.append(splitter, 0, 1);
+//            }
+//            context.write(entry.getKey(), t);
+//        }
     }
 }

@@ -71,8 +71,8 @@ public class DictionaryGenerator {
         logger.info("Dictionary value samples: " + buf.toString());
         logger.info("Dictionary cardinality " + info.getCardinality());
 
-        if (values.size() > 1000000)
-            throw new IllegalArgumentException("Too high cardinality is not suitable for dictionary! Are the values stable enough for incremental load??");
+//        if (values.size() > 1000000)
+//            throw new IllegalArgumentException("Too high cardinality is not suitable for dictionary! Are the values stable enough for incremental load??");
 
         return dict;
     }
